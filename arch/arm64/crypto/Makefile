@@ -50,9 +50,6 @@ aes-arm64-y := aes-cipher-core.o aes-cipher-glue.o
 obj-$(CONFIG_CRYPTO_AES_ARM64_BS) += aes-neon-bs.o
 aes-neon-bs-y := aes-neonbs-core.o aes-neonbs-glue.o
 
-AFLAGS_aes-ce.o		:= -DINTERLEAVE=4
-AFLAGS_aes-neon.o	:= -DINTERLEAVE=4
-
 ifeq ($(cc-name),clang)
 ccflags-y += -mcpu=cortex-a76+crc+crypto -mtune=cortex-a76
 else ifeq ($(cc-name),gcc)
