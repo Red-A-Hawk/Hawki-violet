@@ -104,6 +104,14 @@ jobs:
 
           echo "stable update completed."
 
+          echo "Syncing manipvlator stable1..."
+
+          git push target \
+            HEAD:refs/heads/stable1 \
+            --force
+
+          echo "stable1 update completed."
+
       # ============================================================
       # 5. VERIFY BOTH BRANCHES
       # ============================================================
@@ -129,6 +137,10 @@ jobs:
             "https://x-access-token:${GH_TOKEN}@github.com/Red-A-Hawk/Hawki-violet.git" \
             refs/heads/stable | awk '{print $1}')
 
+          HAWKI_STABLE1_COMMIT=$(git ls-remote \
+            "https://x-access-token:${GH_TOKEN}@github.com/Red-A-Hawk/Hawki-violet.git" \
+            refs/heads/stable1 | awk '{print $1}')
+
           echo ""
           echo "tbyool 17.0:"
           echo "$TBYOOL_COMMIT"
@@ -142,6 +154,13 @@ jobs:
 
           echo "Hawki-violet stable:"
           echo "$HAWKI_STABLE_COMMIT"
+
+          echo ""
+          echo "manipvlator stable1 source:"
+          echo "$MANIPVLATOR_COMMIT"
+
+          echo "Hawki-violet stable1:"
+          echo "$HAWKI_STABLE1_COMMIT"
 
           echo ""
           echo "=============================================="
@@ -160,6 +179,15 @@ jobs:
           test "$MANIPVLATOR_COMMIT" = "$HAWKI_STABLE_COMMIT"
 
           echo "stable: OK"
+
+          echo ""
+          echo "=============================================="
+          echo "Checking stable1"
+          echo "=============================================="
+
+          test "$MANIPVLATOR_COMMIT" = "$HAWKI_STABLE1_COMMIT"
+
+          echo "stable1: OK"
 
           echo ""
           echo "=============================================="
