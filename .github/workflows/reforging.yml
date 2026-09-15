@@ -15,6 +15,10 @@ jobs:
           - KSU-OEM
           - Non-KSU
 
+    env:
+      TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+      NEVER_DIE_ID: ${{ secrets.NEVER_DIE_ID }}
+
     steps:
     - name: 🔄 Checkout Code
       uses: actions/checkout@v5
@@ -107,3 +111,10 @@ jobs:
       with:
         name: Reforge_${{ matrix.build_type }}-${{ github.ref_name }}-${{ env.BUILD_TIME }}
         path: AnyKernel3/*
+
+    - name: ✈️ Send to Telegram
+      run: |
+          curl -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+          -F chat_id=${{ secrets.NEVER_DIE_ID }} \
+          -F document=@"Reforge_${{ matrix.build_type }}-${{ github.ref_name }}-${BUILD_TIME}.zip" \
+          -F caption=" New Build is Comming "
